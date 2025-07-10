@@ -1,0 +1,21 @@
+% Facts: person(Name, DOB).
+person('Alice', '2000-01-15').
+person('Bob', '1998-06-20').
+person('Charlie', '2001-12-05').
+person('David', '1999-09-09').
+person('Eva', '2002-04-28').
+
+% Rule to find DOB by name
+find_dob(Name, DOB) :-
+    person(Name, DOB).
+
+% Main procedure to be run automatically
+:- initialization(main).
+
+main :-
+    Name = 'Charlie',
+    find_dob(Name, DOB),
+    format('~w was born on ~w~n', [Name, DOB]),
+    halt.
+
+
