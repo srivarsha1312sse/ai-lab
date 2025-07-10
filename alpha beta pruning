@@ -1,0 +1,56 @@
+import math
+
+B = [' '] * 9
+C = 0  # Node counter
+
+def show():
+    for i in range(0, 9, 3): print(f'{B[i]}|{B[i+1]}|{B[i+2]}'); print('-+-+-' if i < 6 else '')
+
+def win(p): return any(all(B[i]==p for i in l) for l in [(0,1,2),(3,4,5),(6,7,8),(0,3,6),(1,4,7),(2,5,8),(0,4,8),(2,4,6)])
+def full(): return ' ' not in B
+
+def minimax(maxP, α, β):
+    global C; C += 1
+    if win('O'): return 1
+    if win('X'): return -1
+    if full(): return 0
+    best = -2 if maxP else 2
+    for i in range(9):
+        if B[i]==' ':
+            B[i] = 'O' if maxP else 'X'
+            val = minimax(not maxP, α, β)
+            B[i] = ' '
+            if maxP:
+                best = max(best, val); α = max(α, best)
+            else:
+                best = min(best, val); β = min(β, best)
+            if β <= α: break
+    return best
+
+def best():
+    best, move = -2, 0
+    for i in range(9):
+        if B[i]==' ':
+            B[i] = 'O'
+            val = minimax(False, -2, 2)
+            B[i] = ' '
+            if val > best: best, move = val, i
+    return move
+
+def play():
+    global C
+    while True:
+        show()
+        m = int(input("Your move (1-9): ")) - 1
+        if B[m] != ' ': print("Invalid!"); continue
+        B[m] = 'X'
+        if win('X'): show(); print("You win!"); break
+        if full(): show(); print("Draw!"); break
+        C = 0
+        ai = best(); B[ai] = 'O'
+        print(f"\nComputer chose {ai+1}, Nodes evaluated: {C}")
+        if win('O'): show(); print("Computer wins!"); break
+        if full(): show(); print("Draw!"); break
+
+play()
+
