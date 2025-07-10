@@ -1,0 +1,25 @@
+% --- Facts
+bird(sparrow).
+bird(penguin).
+bird(eagle).
+bird(ostrich).
+
+% --- Birds that cannot fly
+cannot_fly(penguin).
+cannot_fly(ostrich).
+
+% --- Rule
+can_fly(Bird) :-
+    bird(Bird),
+    \+ cannot_fly(Bird).
+
+% --- Auto-run with output
+:- initialization(main).
+
+main :-
+    Bird = sparrow,  % change to sparrow/eagle/ostrich to test others
+    ( can_fly(Bird) ->
+        write(true), nl
+    ;
+        write(false), nl
+    ).
