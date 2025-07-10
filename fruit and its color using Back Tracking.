@@ -1,0 +1,15 @@
+fruit(apple, red).
+fruit(banana, yellow).
+fruit(grape, purple).
+fruit(guava, green).
+fruit(watermelon, green).
+
+:- initialization(main).
+
+main :-
+    fruit(F, green),
+    write(F), nl,
+    fail.
+main :- halt.
+
+ 
