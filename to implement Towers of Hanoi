@@ -1,0 +1,17 @@
+% Rule: towers_of_hanoi(N, From, To, Aux)
+towers_of_hanoi(1, From, To, _) :-
+    write('Move disk 1 from '), write(From), write(' to '), write(To), nl.
+
+towers_of_hanoi(N, From, To, Aux) :-
+    N > 1,
+    N1 is N - 1,
+    towers_of_hanoi(N1, From, Aux, To),
+    write('Move disk '), write(N), write(' from '), write(From), write(' to '), write(To), nl,
+    towers_of_hanoi(N1, Aux, To, From).
+
+% Initialization to auto-run with 3 disks
+:- initialization(main).
+
+main :-
+    towers_of_hanoi(3, left, right, center),
+    halt.
