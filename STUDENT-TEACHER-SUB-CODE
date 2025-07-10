@@ -1,0 +1,18 @@
+% --- Facts: student_teacher(Student, Teacher, Subject, Code)
+student_teacher(john, halen, maths, m101).
+student_teacher(nithya, david, physics, p202).
+student_teacher(kumar, rachel, chemistry, c303).
+student_teacher(anu, halen, maths, m101).
+student_teacher(lisa, david, physics, p202).
+
+% --- Rule to get teacher and subject info for a student
+get_info(Student, Teacher, Subject, Code) :-
+    student_teacher(Student, Teacher, Subject, Code).
+
+% --- Automatically run this when file is loaded
+:- initialization(main).
+
+main :-
+    get_info(john, Teacher, Subject, Code),
+    format('John is taught ~w by ~w (Code: ~w).~n', [Subject, Teacher, Code]),
+    halt.
