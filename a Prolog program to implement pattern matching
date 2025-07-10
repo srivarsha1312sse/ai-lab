@@ -1,0 +1,22 @@
+% Check if Pattern is a sublist of List
+pattern_match(Pattern, List) :-
+    append(_, Rest, List),
+    append(Pattern, _, Rest).
+
+% Start the program
+:- initialization(main).
+
+main :-
+    write('Enter main list (example: [a,b,c,d]): '), nl,
+    read(MainList),
+    write('Enter pattern to match (example: [b,c]): '), nl,
+    read(Pattern),
+    ( pattern_match(Pattern, MainList) ->
+        write('Pattern found!'), nl
+    ;
+        write('Pattern not found.'), nl
+    ).
+ 
+
+
+
