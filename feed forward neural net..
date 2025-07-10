@@ -1,0 +1,51 @@
+import numpy as np
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+
+# Input and Output Data (XOR logic)
+X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+Y = np.array([[0], [1], [1], [0]])
+
+# Build the model
+model = Sequential()
+model.add(Dense(4, input_dim=2, activation='relu'))  # Hidden layer
+model.add(Dense(1, activation='sigmoid'))            # Output layer
+
+# Compile the model
+model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+
+# Train the model
+model.fit(X, Y, epochs=500, verbose=0)
+
+# Predictions
+print("Predictions:")
+predictions = model.predict(X)
+for i in range(4):
+    print(f"Input {X[i]} -> Predicted: {predictions[i][0]:.2f}")
+
+exp:24
+   % disease(Name).
+disease(diabetes).
+disease(hypertension).
+disease(anemia).
+
+% diet(Disease, Food Recommendation).
+diet(diabetes, 'Avoid sugar, eat grains, vegetables').
+diet(hypertension, 'Low salt, fruits, oats').
+diet(anemia, 'Eat iron-rich food').
+
+% Rule to suggest food
+suggest_diet(Disease, Suggestion) :-
+    diet(Disease, Suggestion).
+
+% Run on program load
+:- initialization(main).
+
+main :-
+    write('Enter disease (diabetes, hypertension, anemia): '), nl,
+    read(Disease),
+    suggest_diet(Disease, Suggestion),
+    write('Diet Suggestion: '), write(Suggestion), nl,
+    halt.
+
+
