@@ -1,0 +1,23 @@
+disease(flu, [fever, cough, sore_throat]).
+disease(cold, [sneezing, runny_nose]).
+disease(covid, [fever, cough, tiredness]).
+disease(malaria, [fever, chills, sweating]).
+
+match(Symptoms, Disease) :-
+    disease(Disease, Required),
+    subset(Required, Symptoms).
+
+subset([], _).
+subset([H|T], L) :- member(H, L), subset(T, L).
+
+main :-
+    write('Enter your symptoms as a list (e.g., [fever, cough]): '), nl,
+    read(UserSymptoms),
+    ( match(UserSymptoms, D) ->
+        write('You may have: '), write(D), nl
+    ; write('No matching disease found.'), nl ),
+    halt.
+
+:- initialization(main).
+
+
