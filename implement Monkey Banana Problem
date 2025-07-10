@@ -1,0 +1,24 @@
+% Actions
+move(state(at_door, on_floor, at_window, no), go_to_window, state(at_window, on_floor, at_window, no)).
+move(state(at_window, on_floor, at_window, no), push_box, state(at_middle, on_floor, at_middle, no)).
+move(state(at_middle, on_floor, at_middle, no), climb_box, state(at_middle, on_box, at_middle, no)).
+move(state(at_middle, on_box, at_middle, no), grab_banana, state(at_middle, on_box, at_middle, yes)).
+
+% Goal state
+goal(state(at_middle, on_box, at_middle, yes)).
+
+% Plan generator
+can_get_banana(S, []) :- goal(S).
+can_get_banana(S, [A|R]) :- move(S, A, S1), can_get_banana(S1, R).
+
+% Start point
+:- initialization(main).
+
+main :-
+    read(State),
+    (can_get_banana(State, Plan) ->
+        write('Plan = '), write(Plan), nl,
+        write('Banana obtained: true'), nl
+    ;
+        write('Banana cannot be obtained.'), nl),
+    halt.
