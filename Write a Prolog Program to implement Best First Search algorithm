@@ -1,0 +1,22 @@
+edge(a,b). edge(a,c). edge(b,d). edge(c,d). edge(c,e). edge(d,e).
+h(a,5). h(b,2). h(c,1). h(d,4). h(e,0).
+
+bestfs(S,G,P):- bfs([[S]],G,R), reverse(R,P).
+bfs([[G|R]|_],G,[G|R]).
+bfs([P|Ps],G,R):- P=[N|_],
+  findall([X|P],(edge(N,X),\+member(X,P)),Nxt),
+  add_h(Nxt,Hs), sort(Hs,Srt), paths(Srt,Qs),
+  append(Ps,Qs,All), bfs(All,G,R).
+
+add_h([],[]).
+add_h([[N|R]|T],[(H-[N|R])|X]):- h(N,H), add_h(T,X).
+
+paths([],[]).
+paths([_-P|T],[P|R]):- paths(T,R).
+
+:- initialization(main).
+
+main :-
+    bestfs(a, e, P),
+    write('Best path: '), write(P), nl,
+    halt.
