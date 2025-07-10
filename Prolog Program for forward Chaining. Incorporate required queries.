@@ -1,0 +1,17 @@
+% Facts
+fact(sun_is_shining).
+fact(weather_is_clear).
+
+% Goal
+goal(go_outside) :-
+    condition(sun_is_shining),
+    condition(weather_is_clear),
+    write('Output: You can go outside.'), nl,
+    write('Success!'), nl.
+
+% Condition predicate
+condition(X) :- fact(X).
+
+% Auto-run
+:- initialization(goal(go_outside)).
+
